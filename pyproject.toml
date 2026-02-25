@@ -1,0 +1,19 @@
+[project]
+name = "medical-assistant"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "chromadb>=1.5.1",
+    "faiss-cpu>=1.13.2",
+    "langchain>=1.2.10",
+    "langchain-community>=0.4.1",
+    "langchain-core>=1.2.14",
+    "langchain-groq>=1.1.2",
+    "pymupdf>=1.27.1",
+    "pypdf>=6.7.1",
+    "python-dotenv>=1.2.1",
+    "sentence-transformers>=5.2.3",
+    "tqdm>=4.67.3",
+]

@@ -1,0 +1,5 @@
+{
+  "python.defaultInterpreterPath": "/mnt/work/graduation project/Medical Assistant/.venv/bin/python",
+  "python.linting.enabled": true,
+  "python.linting.pylintEnabled": false
+}
