@@ -1,0 +1,34 @@
+from langchain_pinecone import PineconeVectorStore
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
+from pinecone import Pinecone, ServerlessSpec
+from app.core.config import settings
+import time
+
+def get_embeddings():
+    return GoogleGenerativeAIEmbeddings(
+        model="models/embedding-001",
+        google_api_key=settings.GOOGLE_API_KEY
+    )
+
+def init_pinecone_index():
+    pc = Pinecone(api_key=settings.PINECONE_API_KEY)
+    existing_indexes = [i["name"] for i in pc.list_indexes()]
+    
+    if settings.PINECONE_INDEX_NAME not in existing_indexes:
+        pc.create_index(
+            name=settings.PINECONE_INDEX_NAME,
+            dimension=768, # assuming gemini-embedding-001 outputs 768 dims
+            metric="dotproduct",
+            spec=ServerlessSpec(cloud="aws", region=settings.PINECONE_ENV)
+        )
+        while not pc.describe_index(settings.PINECONE_INDEX_NAME).status["ready"]:
+            time.sleep(1)
+
+def get_vectorstore():
+    # Make sure index exists (optional, could be done once on startup)
+    init_pinecone_index()
+    return PineconeVectorStore(
+        index_name=settings.PINECONE_INDEX_NAME,
+        embedding=get_embeddings(),
+        pinecone_api_key=settings.PINECONE_API_KEY
+    )
