@@ -22,8 +22,7 @@ app.include_router(api_router)
 
 @app.get("/")
 def read_root():
-    return {"message": "Welcome to the Chat Assistant API"}
-
+    return {"message": "Welcome to the Chat Assistant API "}
 def main():
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
 

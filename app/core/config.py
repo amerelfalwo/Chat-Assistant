@@ -12,7 +12,7 @@ class Settings(BaseSettings):
     
     # Pinecone VectorStore
     PINECONE_ENV: str = "us-east-1"
-    PINECONE_INDEX_NAME: str = "medicalindex"
+    PINECONE_INDEX_NAME: str = "index-name"
     
     # Set explicit environment variables locally for library access if needed
     def model_post_init(self, __context):
