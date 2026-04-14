@@ -1,4 +1,3 @@
----
 # 🤖 Chat Assistant API (RAG-based)
 
 **Chat Assistant** is an advanced AI system designed to assist users in interacting with, researching, and generating articles from their uploaded documents. By leveraging **Retrieval-Augmented Generation (RAG)**, the application combines the power of modern LLMs with dynamic document analysis.
@@ -7,10 +6,10 @@
 
 ## 🚀 Key Features
 
-* **Intelligent Document Processing**: Automatically parses complex medical PDFs and ultrasound reports.
-* **Semantic Search**: Uses Google Generative AI Embeddings to understand medical terminology (e.g., Hypoechoic, Microcalcifications).
-* **Vector Memory**: Powered by **Pinecone**, allowing the chatbot to "remember" and reference clinical guidelines and past cases.
-* **High Accuracy**: Optimized with a modern Gemini/Embedding architecture for precise classification between benign and malignant nodules.
+* **Intelligent Document Processing**: Automatically parses and understands complex PDF documents from any field.
+* **Semantic Search**: Uses advanced embeddings to understand domain-specific terminology across various subjects (e.g., technology, history, law).
+* **Vector Memory**: Powered by **Pinecone**, allowing the assistant to "remember" and reference multi-document contexts across sessions.
+* **High Accuracy**: Optimized with a modern Gemini/Embedding architecture for precise information retrieval and content generation.
 
 ---
 
@@ -28,7 +27,7 @@
 
 ## 🏗️ Architecture Flow
 
-1. **Ingestion**: Clinical PDFs are uploaded via the `/upload` endpoint.
+1. **Ingestion**: Document PDFs are uploaded via the `/upload` endpoint.
 2. **Chunking**: Documents are split into optimized context chunks via the backend.
 3. **Embedding**: Text is converted into vectors using `GoogleGenerativeAIEmbeddings`.
 4. **Indexing**: Vectors are upserted into Pinecone with associated metadata bound to a `session_id`.
@@ -73,7 +72,7 @@ uv run main.py
 │   ├── api/              # Endpoints for chat & PDF uploading
 │   ├── core/             # Configuration and environment setup
 │   └── services/         # Vectorstore, memory mgmt, and RAG pipelines
-├── upload_pdfs/          # Local staging for uploaded medical reports
+├── upload_pdfs/          # Local staging for uploaded documents
 ├── DATA/                 # Directory containing default guidelines and materials
 ├── main.py               # Application engine (Backend entrypoint)
 ├── pyproject.toml        # Application dependencies and package resolution
@@ -82,9 +81,9 @@ uv run main.py
 
 ---
 
-## 🛡️ Medical Disclaimer
+## 🛡️ AI Disclaimer
 
-*ThyraX is a graduation project intended for educational and decision-support purposes only. It should not be used as a replacement for professional medical diagnosis or clinical judgment.*
+*This project is intended for educational and research purposes only. AI-generated content can be incorrect; always verify critical information from primary sources.*
 
 ---
 
