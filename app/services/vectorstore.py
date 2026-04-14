@@ -8,18 +8,18 @@ import time
 
 _index_initialized = False
 _index_init_lock = Lock()
+EMBEDDING_MODEL = "models/embedding-001"
+EMBEDDING_DIMENSION = 768
 
 @lru_cache(maxsize=1)
 def get_embeddings():
     return GoogleGenerativeAIEmbeddings(
-        model="models/embedding-001",
+        model=EMBEDDING_MODEL,
         google_api_key=settings.GOOGLE_API_KEY
     )
 
 def init_pinecone_index():
     global _index_initialized
-    if _index_initialized:
-        return
 
     with _index_init_lock:
         if _index_initialized:
@@ -42,7 +42,7 @@ def init_pinecone_index():
         if settings.PINECONE_INDEX_NAME not in existing_indexes:
             pc.create_index(
                 name=settings.PINECONE_INDEX_NAME,
-                dimension=768, # assuming gemini-embedding-001 outputs 768 dims
+                dimension=EMBEDDING_DIMENSION,
                 metric="dotproduct",
                 spec=ServerlessSpec(cloud="aws", region=settings.PINECONE_ENV)
             )
