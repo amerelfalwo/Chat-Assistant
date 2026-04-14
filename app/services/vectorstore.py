@@ -2,8 +2,12 @@ from langchain_pinecone import PineconeVectorStore
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from pinecone import Pinecone, ServerlessSpec
 from app.core.config import settings
+from functools import lru_cache
 import time
 
+_index_initialized = False
+
+@lru_cache(maxsize=1)
 def get_embeddings():
     return GoogleGenerativeAIEmbeddings(
         model="models/embedding-001",
@@ -11,8 +15,20 @@ def get_embeddings():
     )
 
 def init_pinecone_index():
+    global _index_initialized
+    if _index_initialized:
+        return
+
     pc = Pinecone(api_key=settings.PINECONE_API_KEY)
-    existing_indexes = [i["name"] for i in pc.list_indexes()]
+    listed_indexes = pc.list_indexes()
+    if hasattr(listed_indexes, "names"):
+        existing_indexes = set(listed_indexes.names())
+    else:
+        existing_indexes = {
+            idx["name"] if isinstance(idx, dict) else getattr(idx, "name", None)
+            for idx in listed_indexes
+        }
+        existing_indexes.discard(None)
     
     if settings.PINECONE_INDEX_NAME not in existing_indexes:
         pc.create_index(
@@ -23,6 +39,7 @@ def init_pinecone_index():
         )
         while not pc.describe_index(settings.PINECONE_INDEX_NAME).status["ready"]:
             time.sleep(1)
+    _index_initialized = True
 
 def get_vectorstore(namespace: str = None):
     # Make sure index exists (optional, could be done once on startup)
