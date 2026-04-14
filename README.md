@@ -87,4 +87,4 @@ uv run main.py
 
 ---
 
-**Developed with ❤️ for the Graduation Project 2026.**
+**Developed with ❤️ **
