@@ -1,7 +1,6 @@
-from fastapi import APIRouter, Form
+from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
-from typing import Optional
 from app.services.rag_pipeline import get_conversational_rag
 import logging
 
